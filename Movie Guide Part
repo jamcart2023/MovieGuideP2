@@ -1,0 +1,68 @@
+# James Carter CIS261 Movie Guide Part 2
+
+with open("movies.txt", "w") as file:
+    file.write("The Waterboy,\nMary Poppins,\nBad Boys,\nBad Boys II,\nBad Boys II")
+
+def populate_list(FILENAME):
+    movie_list = []
+    with open(FILENAME, "r") as file:
+        for line in file:
+            movie_list.append(line.strip())
+    return movie_list
+
+def display_menu():
+    print("\nWelcome to the Movie List. Select An Option Below")
+    print("=============================================================>")
+    print("list --> Display Movie titles")
+    print("add --> Add a movie title")
+    print("delete --> Delete a movie title")
+    print("exit --> Exit the application")
+    print("<=============================================================+")
+def display_titles(movie_list):
+    print("\nMovie Titles:")
+    for idx, title in enumerate(movie_list, start=1):
+        print(f"{idx}. {title}")
+
+def add_title(movie_list, title, FILENAME):
+    movie_list.append(title)
+    with open(FILENAME,"a") as file:
+        file.write(title + "\n")
+    print(f"\n{title} has been added to the list")
+
+def delete_title(movie_list, index, FILENAME):
+    if 1 <= index <= len(movie_list):
+        delete_title = movie_list.pop(index -1)
+        with open(FILENAME, "w") as file:
+            file.write("\n".join(movie_list))
+            print(f"\n{delete_title} has been deleted from the list")
+    else:
+        print(f"\nInvalid index number")
+
+def main():
+    movie_file = "movies.txt"
+    movie_list = populate_list(movie_file)
+         
+    while True:
+        display_menu()
+        choice = input("Enter your choice: ")
+
+        if choice == "list":
+            display_titles(movie_list)
+        elif choice == "add":
+            new_title = input("Enter the new movie title: ")
+            add_title(movie_list, new_title, movie_file)
+            display_titles(movie_list)
+        elif choice == "delete":
+            display_titles(movie_list)
+            index = int(input("Enter the numbner of the movie you want to delete: "))
+            delete_title(movie_list, index, movie_file)
+            display_titles(movie_list)
+        elif choice == "exit":
+            print("Later")
+            break
+        else:
+            print("invalid choice, please try again")
+                  
+if __name__ == "__main__":
+    main()
+              
